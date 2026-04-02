@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Food Menu</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-size: cover;
+  background-position: center;
+  transition: background 0.5s ease-in-out;
+  background-image: url(rk.jpg);
+}
+
+/* Dark overlay */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: -1;
+}
+
+header {
+  background: #ff5722;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+.container {
+  padding: 20px;
+}
+
+.search-box {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+input {
+  padding: 10px;
+  width: 80%;
+  max-width: 400px;
+  border-radius: 5px;
+  border: none;
+}
+
+.menu {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.item {
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.item:hover {
+  transform: scale(1.05);
+}
+
+.item img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.price {
+  color: green;
+  font-weight: bold;
+}
+
+button {
+  background: #ff5722;
+  color: white;
+  border: none;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #e64a19;
+}
+</style>
+
+</head>
+<body>
+
+<header>
+  <h1>🍔 Food Menu</h1>
+</header>
+
+<div class="container">
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search food...">
+  </div>
+
+  <div class="menu" id="menu"></div>
+</div>
+
+<script>
+const foods = [
+  {name: "Burger", price: 120, img: "ash.jpg"},
+  {name: "Pizza", price: 250, img: "pizza.jpg"},
+  {name: "Pasta", price: 180, img: "pasta.jpg"},
+  {name: "Sandwich", price: 90, img: "sand.jpg"},
+  {name: "Fries", price: 70, img: "fries.jpg"},
+  {name: "Ice Cream", price: 100, img: "ice.jpg"}
+];
+
+const menu = document.getElementById("menu");
+const search = document.getElementById("search");
+
+// Background change
+function changeBackground(foodName) {
+  document.body.style.backgroundImage = `url('https://source.unsplash.com/1600x900/?${foodName}')`;
+}
+
+// Display items
+function displayItems(items) {
+  menu.innerHTML = "";
+  items.forEach(food => {
+    menu.innerHTML += `
+      <div class="item" onmouseover="changeBackground('${food.name}')">
+        <img src="${food.img}">
+        <h3>${food.name}</h3>
+        <p class="price">₹${food.price}</p>
+        <button onclick="orderItem('${food.name}')">Order</button>
+      </div>
+    `;
+  });
+}
+
+// Order function
+function orderItem(name) {
+  alert(name + " ordered! 🍽️");
+}
+
+// Search filter
+search.addEventListener("keyup", () => {
+  const value = search.value.toLowerCase();
+  const filtered = foods.filter(f => f.name.toLowerCase().includes(value));
+  displayItems(filtered);
+});
+
+// Initial load
+displayItems(foods);
+</script>
+
+</body>
+</html>
